@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class RoomService {
 
     private final AtomicLong counter = new AtomicLong(1); // will load from db later
-    private  Map<String, Room> availableRooms = new ConcurrentHashMap<>();
+    private final Map<String, Room> availableRooms = new ConcurrentHashMap<>();
 
 
     // Creating a room object
