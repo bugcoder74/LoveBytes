@@ -24,6 +24,9 @@ public class RoomService {
         return room;
     }
 
+    public Map<String, Room> getAvailableRooms(){
+        return Map.copyOf(availableRooms);
+    }
 
     private static class RoomIDGenerator{
         private static final String BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
