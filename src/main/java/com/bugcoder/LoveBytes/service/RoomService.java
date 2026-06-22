@@ -1,5 +1,7 @@
 package com.bugcoder.LoveBytes.service;
 
+import com.bugcoder.LoveBytes.dto.JoinRoomResponse;
+import com.bugcoder.LoveBytes.exception.RoomNotFoundException;
 import com.bugcoder.LoveBytes.model.Room;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,22 @@ public class RoomService {
         return room;
     }
 
+    // Get all rooms
     public Map<String, Room> getAvailableRooms(){
         return Map.copyOf(availableRooms);
     }
 
+    // Join a room
+    public JoinRoomResponse joinRoom(String roomCode){
+        Room room = availableRooms.get(roomCode);
+        if(room == null)
+            throw new RoomNotFoundException(roomCode);
+        final String participantId = UUID.randomUUID().toString();
+        room.addParticipant(participantId);
+        return new JoinRoomResponse(room, participantId);
+    }
+
+    // ================ Inner Classes and Records ===================================
     private static class RoomIDGenerator{
         private static final String BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -44,5 +58,4 @@ public class RoomService {
             return code.reverse().toString();
         }
     }
-
 }
