@@ -1,6 +1,7 @@
 package com.bugcoder.LoveBytes.service;
 
 import com.bugcoder.LoveBytes.dto.JoinRoomResponse;
+import com.bugcoder.LoveBytes.exception.InvalidParticipantException;
 import com.bugcoder.LoveBytes.exception.RoomNotFoundException;
 import com.bugcoder.LoveBytes.model.Room;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class RoomService {
         final String uuid = UUID.randomUUID().toString();
         Room room = new Room(roomId, uuid);
         this.availableRooms.put(roomId, room);
+        room.addParticipant(uuid);
         return room;
     }
 
@@ -39,6 +41,15 @@ public class RoomService {
         final String participantId = UUID.randomUUID().toString();
         room.addParticipant(participantId);
         return new JoinRoomResponse(room, participantId);
+    }
+
+    public void checkValidParticipation(String participationId, String roomCode){
+        Room room = availableRooms.get(roomCode);
+        if(room == null)
+            throw new RoomNotFoundException(roomCode);
+        else if (!room.getParticipants().contains(participationId)) {
+            throw new InvalidParticipantException();
+        }
     }
 
     // ================ Inner Classes and Records ===================================
