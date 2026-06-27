@@ -1,4 +1,4 @@
-# LoveBytes
+# LoveBytes.
 
 Watch movies, YouTube videos, and shared media with friends in real time.
 
